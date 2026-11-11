@@ -1,0 +1,3 @@
+# Mientras Turno no esté lanzado oficialmente, no se indexa.
+User-agent: *
+Disallow: /

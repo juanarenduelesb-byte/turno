@@ -1,0 +1,62 @@
+name: Actualizar y publicar
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # 09:50 en Madrid en invierno (10:50 en verano), después del cambio de turno de las 9:30
+    - cron: '50 8 * * *'
+    # refresco de tarde para recoger cambios de última hora
+    - cron: '30 17 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publicar
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - run: pip install shapely==2.0.6
+
+      # Última copia buena de cada fuente: si una falla hoy, se usa la anterior
+      - name: Recuperar descargas anteriores
+        uses: actions/cache/restore@v4
+        with:
+          path: pipeline/raw
+          key: raw-${{ github.run_id }}
+          restore-keys: raw-
+
+      - name: Descargar fuentes oficiales
+        run: python pipeline/fetch.py
+
+      - name: Guardar descargas
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: pipeline/raw
+          key: raw-${{ github.run_id }}
+
+      - name: Construir datos
+        run: python pipeline/build.py
+
+      - name: Comprobar el resultado
+        run: python pipeline/check.py
+
+      - name: Publicar en Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy site --project-name=turno --branch=main --commit-dirty=true
