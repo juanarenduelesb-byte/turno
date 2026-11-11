@@ -121,7 +121,7 @@ $('#gps').addEventListener('click',()=>{
   const fail=()=>{m.textContent='No he podido leer tu ubicación (permiso denegado o no disponible). Escribe tu municipio, barrio o código postal.';};
   try{
     if(!navigator.geolocation)return fail();
-    navigator.geolocation.getCurrentPosition(p=>{m.hidden=true;/* la posición se usa solo en tu navegador: no se envía a ningún servidor */setLoc({lat:p.coords.latitude,lon:p.coords.longitude,label:'Tu ubicación'})},fail,{timeout:8000,maximumAge:60000});
+    navigator.geolocation.getCurrentPosition(p=>{m.hidden=true;setLoc({lat:p.coords.latitude,lon:p.coords.longitude,label:'Tu ubicación'})},fail,{timeout:8000,maximumAge:60000});
   }catch(e){fail()}
 });
 const QUICK=[['Sotogrande',36.2825,-5.2945,'Sotogrande, Cádiz'],['San Sebastián de los Reyes',40.5474,-3.6261,'San Sebastián de los Reyes, Madrid'],['Madrid centro',40.4168,-3.7038,'Puerta del Sol, Madrid'],['Jerez',36.6866,-6.1372,'Jerez de la Frontera, Cádiz'],['Zaragoza',41.6488,-0.8891,'Zaragoza'],['Barcelona',41.3874,2.1686,'Barcelona'],['Sevilla',37.3891,-5.9845,'Sevilla'],['Toledo',39.8628,-4.0273,'Toledo']];
@@ -377,7 +377,7 @@ function update(redraw){tick();compute();renderBest();renderList();renderCard();
 function route_(){
   const h=(location.hash||'#cerca').slice(1); VIEW=['cerca','semana','colegios'].includes(h)?h:'cerca';
   ['cerca','semana','colegios'].forEach(v=>$('#v-'+v).hidden=v!==VIEW);
-  document.querySelectorAll('.tabs a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+VIEW));
+  document.querySelectorAll('.tabs a').forEach(a=>{const on=a.getAttribute('href')==='#'+VIEW;a.classList.toggle('on',on);if(on)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
   const showTool=VIEW!=='colegios'; $('#tool').hidden=!showTool; $('#quick').hidden=!showTool;
   if(VIEW==='semana')renderWeek(); if(VIEW==='colegios')renderCofs(); if(VIEW==='cerca')MAP.draw();
 }

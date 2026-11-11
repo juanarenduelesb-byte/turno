@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Turno · Farmacias de guardia en España</title>
 <meta name="description" content="Encuentra la farmacia de guardia más cercana con datos oficiales de los colegios de farmacéuticos.">
 <meta name="robots" content="noindex, nofollow">
@@ -326,7 +326,86 @@ footer .by svg{width:20px;height:20px}footer .by b{color:var(--ink);font-weight:
 footer .esc .a{stroke:var(--esc-a)}footer .esc .b{stroke:var(--esc-b);stroke-opacity:.55}
 @media (max-width:700px){.topnav .seg{display:none}.topnav .bar{justify-content:space-between}}
 footer .by span{display:inline!important}
-.health{max-width:1240px;margin:0 auto 18px;padding:0 20px}
+
+/* ===== móvil: barra de pestañas (guía de Apple) y tamaños ajustados ===== */
+nav.tabbar{display:none}
+@media (max-width:700px){
+  .seg.mob{display:none!important}
+  nav.tabbar{display:block;position:fixed;top:auto;left:0;right:0;bottom:0;z-index:60;margin:0;max-width:none;padding:0 14px calc(10px + env(safe-area-inset-bottom));pointer-events:none}
+  .tabin{pointer-events:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:2px;max-width:360px;margin:0 auto;padding:6px;border-radius:999px;background:color-mix(in srgb,var(--solid) 78%,transparent);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border:1px solid color-mix(in srgb,var(--ink) 9%,transparent);box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 12px 32px -10px rgba(0,0,0,.45),0 2px 6px rgba(0,0,0,.14)}
+  .tb{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:52px;border-radius:999px;text-decoration:none;color:var(--muted);-webkit-tap-highlight-color:transparent;transition:color .2s,background .3s cubic-bezier(.3,1.3,.5,1),transform .2s}
+  .tb svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .tb svg .f{fill:currentColor;stroke:none}
+  .tb span{font-size:10.5px;font-weight:600;letter-spacing:.01em;line-height:1}
+  .tb.on{color:var(--accent);background:color-mix(in srgb,var(--accent) 13%,transparent)}
+  .tb.on svg{stroke-width:2.1}
+  .tb.on svg path,.tb.on svg rect{fill:color-mix(in srgb,currentColor 16%,transparent)}
+  .tb:active{transform:scale(.94)}
+
+  body{font-size:15px}
+  .wrap{padding:0 14px}
+  .topnav{padding:0 12px;margin-top:8px}
+  .topnav .bar{padding:4px 6px 4px 14px}
+  .brand{font-size:17px}.brand svg{width:20px;height:20px}
+  .band{padding-bottom:14px}
+  .head{margin:14px 0 10px}
+  .eyebrow{font-size:10.5px;margin-bottom:2px}
+  h1{font-size:23px;letter-spacing:-.03em}
+  .tool{grid-template-columns:minmax(0,1fr) auto;padding:6px;border-radius:20px;gap:6px}
+  select,input[type=search]{height:40px;font-size:15px}
+  .tool .btn{height:40px;width:40px;padding:0}
+  .tool .btn span{display:none}
+  .quick{margin-top:10px;gap:5px}
+  .qchip{font-size:12px;padding:6px 11px}
+  .best{margin-top:12px;padding:14px;gap:10px 12px;border-radius:20px;border-left-width:5px;grid-template-columns:auto minmax(0,1fr)}
+  .best .ic{width:40px;height:40px;border-radius:13px}.best .ic svg{width:22px;height:22px}
+  .best .k{font-size:10.5px}
+  .best h2{font-size:17px;line-height:1.2}
+  .best p{font-size:13px;line-height:1.4}
+  .best .side{grid-column:1/-1;flex-direction:row;align-items:center;justify-content:space-between;gap:10px}
+  .best .big{font-size:22px;text-align:left}.best .big small{font-size:10px}
+  .best .acts{gap:6px;flex-wrap:nowrap}
+  .best .acts .btn{height:36px;padding:0 12px;font-size:13px}
+  .best .acts [data-sel]{display:none}
+  .status{margin:12px 0 8px;gap:6px;font-size:12px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+  .status::-webkit-scrollbar{display:none}
+  .status>span:first-child{flex:none}
+  .status .qchip{flex:none}
+  .explore{gap:12px}
+  .mapbox{border-radius:20px}
+  .map{height:46vh;min-height:300px}
+  .mleg{font-size:10.5px;gap:7px;padding:4px 8px;left:8px;top:8px}
+  .mctl{right:8px;top:8px}.mctl button{width:34px;height:34px;border-radius:10px}
+  .list{border-radius:20px}
+  .grp{padding:7px 12px;font-size:10.5px}
+  .row{grid-template-columns:10px minmax(0,1fr) auto;gap:10px;padding:10px 12px}
+  .row .t b{font-size:14px}.row .t span{font-size:12px}
+  .row .st{font-size:11px;max-width:96px}
+  .dot{width:10px;height:10px}
+  .card{padding:14px}
+  .card h3{font-size:17px}
+  .facts{gap:5px}.fact{padding:7px 9px;border-radius:12px}.fact b{font-size:13px}
+  .cacts .btn{height:36px;font-size:13px;padding:0 12px}
+  h2.title{font-size:21px;margin:16px 0 10px}
+  .info{font-size:13px;padding:11px 14px;border-radius:16px}
+  .dchip{min-width:76px;padding:6px 10px;border-radius:13px}.dchip b{font-size:15px}.dchip span{font-size:10px}.dchip i{font-size:11px}
+  .wrow{padding:11px 12px;gap:8px}
+  .wrow .t b{font-size:14px}.wrow .t span{font-size:12px}
+  .pill{font-size:12px;padding:4px 8px}
+  .wrow .btn{height:32px;font-size:12px}
+  .mx td.n{min-width:170px}
+  .cof{padding:12px 14px;border-radius:16px}.cof h3{font-size:15px}
+  .method{padding:16px;border-radius:20px}
+  .explore,.cofs,.mx{padding-bottom:0;margin-bottom:16px}
+  footer{padding-bottom:110px}
+}
+@media (max-width:700px){
+  .map .gl{font-size:10.5px;stroke-width:3px}.map .pl{font-size:10px}.map .pl.big{font-size:11.5px}.map .rl{font-size:9px}
+  .wrow{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"t p" "t a";row-gap:6px;align-items:start}
+  .wrow .t{grid-area:t}.wrow .pill{grid-area:p;justify-self:end}.wrow .acts{grid-area:a;justify-self:end;grid-column:auto}
+  .wrow .acts [data-sel]{display:none}.wrow .btn.guard{height:30px;padding:0 12px}
+}
+.health{max-width:1240px;margin:0 auto 18px}
 .health p{margin:0;border-radius:16px;background:var(--guard-t);color:var(--ink);padding:12px 16px;font-size:13px}
 .health b{color:var(--guard)}
 footer nav.legal{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px;position:static;padding:0;max-width:none}
@@ -342,7 +421,7 @@ footer nav.legal a{color:var(--muted);font-weight:600}
   <button class="icon-btn" id="theme" title="Cambiar entre modo claro y oscuro" aria-label="Cambiar tema"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 0 0 16z" fill="currentColor"/></svg></button>
 </div></nav>
 <header class="band">
-<div class="seg mob tabs"><a href="#cerca">Cerca</a><a href="#semana">Semana</a><a href="#colegios">Fuentes</a></div>
+<nav class="tabbar" aria-label="Secciones"><div class="tabin tabs"><a href="#cerca" class="tb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5" class="f"/></svg><span>Cerca</span></a><a href="#semana" class="tb"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="3.2"/><path d="M3.5 9.6h17M8 3v4M16 3v4"/><circle cx="8.3" cy="14" r=".9" class="f"/><circle cx="12" cy="14" r=".9" class="f"/><circle cx="15.7" cy="14" r=".9" class="f"/></svg><span>Semana</span></a><a href="#colegios" class="tb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 9.5 12 4l8.5 5.5"/><path d="M5.5 10v8M9.8 10v8M14.2 10v8M18.5 10v8M3.5 20.5h17"/></svg><span>Fuentes</span></a></div></nav>
 <div class="wrap">
   <div class="head">
     <div>
@@ -399,7 +478,7 @@ footer nav.legal a{color:var(--muted);font-weight:600}
     <div class="cofs" id="cofs"></div>
   </section>
 
-  <div class="health" style="padding:0"><p><b>Información orientativa.</b> Turno no es un servicio sanitario ni sustituye al turno oficial de tu colegio de farmacéuticos. Antes de desplazarte, llama a la farmacia o confírmalo en la fuente oficial. Ante una urgencia, llama al <b>112</b>.</p></div>
+  <div class="health"><p><b>Información orientativa.</b> Turno no es un servicio sanitario ni sustituye al turno oficial de tu colegio de farmacéuticos. Antes de desplazarte, llama a la farmacia o confírmalo en la fuente oficial. Ante una urgencia, llama al <b>112</b>.</p></div>
   <footer id="foot"></footer>
 </div>
 
