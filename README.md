@@ -4,23 +4,17 @@ Web estática (sin servidor ni base de datos) que muestra las farmacias de guard
 con datos oficiales de los colegios de farmacéuticos. Un proyecto de Esclusa.
 
 ## Cómo funciona
-- `pipeline/fetch.py` descarga cada fuente oficial (Madrid, Cádiz, Sevilla, Castilla-La Mancha, Zaragoza).
-  Si una falla, se usa su última copia buena y la web lo indica.
-- `pipeline/build.py` lo cruza con la base de OpenStreetMap (`pipeline/static/osm_farmacias.json`) y genera `site/farmacias.js`.
-- `pipeline/check.py` frena la publicación si el resultado no es razonable.
-- GitHub Actions (`.github/workflows/actualizar.yml`) lo ejecuta cada día a las 9:50 y a las 18:30 (hora de Madrid)
-  y publica `site/` en Cloudflare Pages.
+- Cloudflare Pages está conectado a este repositorio. En cada build ejecuta `pipeline/cf_build.sh`:
+  - `pipeline/fetch.py` descarga cada fuente oficial (Madrid, Cádiz, Sevilla, Castilla-La Mancha, Zaragoza).
+  - `pipeline/build.py` lo cruza con la base de OpenStreetMap (`pipeline/static/osm_farmacias.json`) y genera `site/farmacias.js`.
+  - `pipeline/check.py` frena la publicación si el resultado no es razonable (Cloudflare sigue sirviendo la versión anterior).
+- GitHub Actions (`.github/workflows/actualizar.yml`) lanza un build dos veces al día (9:50 y 18:30, hora de Madrid) llamando al deploy hook.
 
-## Puesta en marcha en Cloudflare (una sola vez)
-1. Cloudflare → **Workers & Pages → Create → Pages → Upload assets** → nombre del proyecto: `turno`
-   (sube cualquier carpeta vacía; las siguientes publicaciones las hace GitHub).
-2. Cloudflare → **My Profile → API Tokens → Create Token → plantilla "Edit Cloudflare Workers"**
-   (o permiso personalizado *Account · Cloudflare Pages · Edit*). Copia el token.
-3. Copia tu **Account ID** (aparece en la portada de Workers & Pages, a la derecha).
-4. GitHub → repositorio `turno` → **Settings → Secrets and variables → Actions → New repository secret**:
-   - `CLOUDFLARE_API_TOKEN` = el token
-   - `CLOUDFLARE_ACCOUNT_ID` = el Account ID
-5. GitHub → **Actions → Actualizar y publicar → Run workflow**. En unos minutos estará en `https://turno.pages.dev`.
+## Configuración en Cloudflare Pages
+- Build command: `bash pipeline/cf_build.sh`
+- Build output directory: `site`
+- Variable de entorno: `PYTHON_VERSION` = `3.12`
+- Deploy hook (Settings → Builds → Deploy hooks) guardado en GitHub como secreto `CF_DEPLOY_HOOK`.
 
 ## Antes de hacerla pública
 - Rellenar los datos del titular en `site/legal.html` (aparecen marcados como PENDIENTE).
