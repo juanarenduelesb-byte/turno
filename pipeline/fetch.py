@@ -17,7 +17,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 RAW = os.path.join(HERE, 'raw')
 UA = {'User-Agent': 'Mozilla/5.0 (compatible; TurnoBot/1.0; +https://github.com/)'}
 TODAY = dt.datetime.now(ZoneInfo('Europe/Madrid')).date()
-DAYS = 8
+DAYS = 9  # de sábado a domingo de la semana siguiente: cubre hasta la próxima actualización
 sys.path.insert(0, HERE)
 
 

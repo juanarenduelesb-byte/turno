@@ -3,7 +3,11 @@
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const store=k=>k==='theme'?localStorage:sessionStorage;
-const LS={get(k){try{return JSON.parse(store(k).getItem('turno.'+k))}catch(e){return null}},set(k,v){try{store(k).setItem('turno.'+k,JSON.stringify(v))}catch(e){}}};
+const PREFS=['theme','loc','rad','filt'];
+function CONSENT(){try{const c=JSON.parse(localStorage.getItem('turno.consent'));if(c&&Date.now()-c.t<365*864e5)return c}catch(e){}return null}
+function setConsent(pref){try{localStorage.setItem('turno.consent',JSON.stringify({pref:!!pref,t:Date.now(),v:1}))}catch(e){}
+  if(!pref)PREFS.forEach(k=>{try{localStorage.removeItem('turno.'+k);sessionStorage.removeItem('turno.'+k)}catch(e){}})}
+const LS={get(k){try{return JSON.parse(store(k).getItem('turno.'+k))}catch(e){return null}},set(k,v){const c=CONSENT();if(!c||!c.pref)return;try{store(k).setItem('turno.'+k,JSON.stringify(v))}catch(e){}}};
 const norm=s=>(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
 const fmtKm=m=>m<950?Math.round(m/10)*10+' m':(m<9950?(m/1000).toFixed(1).replace('.',','):Math.round(m/1000))+' km';
 const nf=new Intl.NumberFormat('es-ES');
@@ -368,7 +372,7 @@ function renderCofs(){
 function renderKpis(){
   const gNow=F.filter(f=>status(f).k==='guardia').length;
   $('#kpis').innerHTML=`<div class="kpi glass"><b class="num">${nf.format(F.length)}</b><span>farmacias</span></div><div class="kpi glass g"><b class="num">${nf.format(gNow)}</b><span>de guardia ahora*</span></div><div class="kpi glass"><b class="num">${P.filter(p=>p.cov).length}/52</b><span>turnos integrados</span></div>`;
-  $('#foot').innerHTML=`* Solo donde hay turno integrado. Datos: colegios de farmacéuticos de Madrid, Cádiz, Sevilla y Castilla-La Mancha, Comunidad de Madrid, Ayuntamiento de Zaragoza, OpenStreetMap (© colaboradores de OSM, ODbL) y GeoNames. Actualizado el ${esc(FARM.meta.built.slice(8,10)+'/'+FARM.meta.built.slice(5,7)+'/'+FARM.meta.built.slice(0,4)+' '+FARM.meta.built.slice(11))}. Ante una urgencia, llama al 112.${FARM.meta.fallos&&FARM.meta.fallos.length?` <b>Aviso:</b> hoy no se ha podido actualizar alguna fuente (${esc(FARM.meta.fallos.join(', '))}); se muestran los últimos datos válidos.`:''}<nav class="legal"><a href="legal.html#aviso-legal">Aviso legal</a><a href="legal.html#privacidad">Privacidad</a><a href="legal.html#cookies">Cookies</a><a href="legal.html#terminos">Términos de uso</a><a href="legal.html#fuentes">Fuentes y licencias</a></nav><div class="by esc"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="a" d="M3 7c3 0 3 3 6 3s3-3 6-3 3 3 6 3" fill="none" stroke-width="2.4" stroke-linecap="round"/><path class="b" d="M3 14c3 0 3 3 6 3s3-3 6-3 3 3 6 3" fill="none" stroke-width="2.4" stroke-linecap="round"/></svg><span>Un proyecto de <b>esclusa</b></span></div>`;
+  $('#foot').innerHTML=`* Solo donde hay turno integrado. Datos: colegios de farmacéuticos de Madrid, Cádiz, Sevilla y Castilla-La Mancha, Comunidad de Madrid, Ayuntamiento de Zaragoza, OpenStreetMap (© colaboradores de OSM, ODbL) y GeoNames. Actualizado el ${esc(FARM.meta.built.slice(8,10)+'/'+FARM.meta.built.slice(5,7)+'/'+FARM.meta.built.slice(0,4)+' '+FARM.meta.built.slice(11))}. Ante una urgencia, llama al 112.${FARM.meta.fallos&&FARM.meta.fallos.length?` <b>Aviso:</b> hoy no se ha podido actualizar alguna fuente (${esc(FARM.meta.fallos.join(', '))}); se muestran los últimos datos válidos.`:''}<nav class="legal"><a href="legal.html#aviso-legal">Aviso legal</a><a href="legal.html#privacidad">Privacidad</a><a href="legal.html#cookies">Cookies</a><a href="legal.html#terminos">Términos de uso</a><a href="legal.html#fuentes">Fuentes y licencias</a><a href="#" data-cookies>Configurar cookies</a></nav><div class="by esc"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="a" d="M3 7c3 0 3 3 6 3s3-3 6-3 3 3 6 3" fill="none" stroke-width="2.4" stroke-linecap="round"/><path class="b" d="M3 14c3 0 3 3 6 3s3-3 6-3 3 3 6 3" fill="none" stroke-width="2.4" stroke-linecap="round"/></svg><span>Un proyecto de <b>esclusa</b></span></div>`;
 }
 
 function update(redraw){tick();compute();renderBest();renderList();renderCard();renderQuick();if(VIEW==='semana')renderWeek();if(redraw!==false)MAP.draw()}
@@ -390,6 +394,20 @@ $('#theme').addEventListener('click',()=>{const dark=root.dataset.theme?root.dat
 (function(){let d='';for(let k=0;k<14;k++){const y=80+k*64;d+=`<path d="M-20 ${y} C 300 ${y-40-k*3} 520 ${y+50} 820 ${y} S 1300 ${y-60} 1620 ${y+10}"/>`}$('#bgTopo').innerHTML=d})();
 
 renderKpis();
+// ---------- aviso de cookies (Aceptar, Rechazar y Configurar al mismo nivel, como pide la AEPD) ----------
+const ck=$('#cookies');
+function showCookies(cfg){
+  const c=CONSENT();
+  ck.hidden=false; ck.classList.toggle('cfg',!!cfg);
+  $('#ckPref').checked=c?!!c.pref:false;
+}
+function closeCookies(){ck.hidden=true}
+$('#ckOk').addEventListener('click',()=>{setConsent(true);closeCookies()});
+$('#ckNo').addEventListener('click',()=>{setConsent(false);closeCookies()});
+$('#ckCfg').addEventListener('click',()=>showCookies(true));
+$('#ckSave').addEventListener('click',()=>{setConsent($('#ckPref').checked);closeCookies()});
+document.addEventListener('click',e=>{if(e.target.closest('[data-cookies]')){e.preventDefault();showCookies(true)}});
+if(!CONSENT())showCookies(false);
 if(LOC)q.value=LOC.label;
 route_(); update();
 setInterval(()=>{update(VIEW==='cerca');renderKpis()},60000);

@@ -405,6 +405,21 @@ nav.tabbar{display:none}
   .wrow .t{grid-area:t}.wrow .pill{grid-area:p;justify-self:end}.wrow .acts{grid-area:a;justify-self:end;grid-column:auto}
   .wrow .acts [data-sel]{display:none}.wrow .btn.guard{height:30px;padding:0 12px}
 }
+.cookies{position:fixed;left:0;right:0;bottom:0;z-index:80;padding:0 14px 16px;pointer-events:none}
+.ckin{pointer-events:auto;max-width:640px;margin:0 auto;background:var(--solid);color:var(--ink);border:1px solid var(--hair);border-radius:22px;box-shadow:0 20px 50px -18px rgba(0,0,0,.45);padding:18px 20px}
+.ckin h2{margin:0 0 4px;font-size:17px;letter-spacing:-.02em}
+.ckin p{margin:0 0 12px;font-size:14px;color:var(--muted)}
+.ckopts{display:none;margin:0 0 12px;border:1px solid var(--hair);border-radius:14px;overflow:hidden}
+.cookies.cfg .ckopts{display:block}
+.ckrow{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--hair);cursor:pointer}
+.ckrow:last-child{border-bottom:0}
+.ckrow b{display:block;font-size:14px}.ckrow small{display:block;font-size:12px;color:var(--muted)}
+.ckrow input{width:20px;height:20px;accent-color:var(--accent);flex:none}
+.ckbtns{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.btn.ck{height:42px;background:var(--brand);color:#fff;border:0}
+#ckSave{display:none}
+.cookies.cfg #ckCfg{display:none}.cookies.cfg #ckSave{display:inline-flex}
+@media (max-width:700px){.cookies{padding-bottom:calc(84px + env(safe-area-inset-bottom))}.ckin{padding:14px 16px;border-radius:18px}.ckin p{font-size:13px}.btn.ck{height:40px;font-size:13px;padding:0 8px}}
 .health{max-width:1240px;margin:0 auto 18px}
 .health p{margin:0;border-radius:16px;background:var(--guard-t);color:var(--ink);padding:12px 16px;font-size:13px}
 .health b{color:var(--guard)}
@@ -480,6 +495,22 @@ footer nav.legal a{color:var(--muted);font-weight:600}
 
   <div class="health"><p><b>Información orientativa.</b> Turno no es un servicio sanitario ni sustituye al turno oficial de tu colegio de farmacéuticos. Antes de desplazarte, llama a la farmacia o confírmalo en la fuente oficial. Ante una urgencia, llama al <b>112</b>.</p></div>
   <footer id="foot"></footer>
+  <div class="cookies" id="cookies" role="dialog" aria-modal="false" aria-labelledby="ckT" hidden>
+    <div class="ckin">
+      <h2 id="ckT">Tu privacidad</h2>
+      <p>Turno no usa cookies de analítica ni de publicidad. Si aceptas, guardaremos en tu navegador tus preferencias (modo claro u oscuro, último lugar buscado y filtros) para la próxima vez. Si rechazas, la web funciona igual. <a href="legal.html#cookies">Más información</a></p>
+      <div class="ckopts">
+        <label class="ckrow"><span><b>Necesarias</b><small>Recordar tu elección sobre este aviso. Siempre activas.</small></span><input type="checkbox" checked disabled></label>
+        <label class="ckrow"><span><b>Preferencias</b><small>Tema, último lugar y filtros, solo en tu dispositivo.</small></span><input type="checkbox" id="ckPref"></label>
+      </div>
+      <div class="ckbtns">
+        <button type="button" class="btn ck" id="ckNo">Rechazar</button>
+        <button type="button" class="btn ck" id="ckCfg">Configurar</button>
+        <button type="button" class="btn ck" id="ckSave">Guardar selección</button>
+        <button type="button" class="btn ck" id="ckOk">Aceptar</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script src="geo.js"></script>

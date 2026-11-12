@@ -1,25 +1,27 @@
-name: Actualizar guardias
+name: Actualización semanal
 
-# Cloudflare Pages reconstruye la web (y descarga los datos del día) en cada push.
-# Este job lo dispara además dos veces al día mediante un deploy hook.
+# Cada sábado por la mañana deja constancia en el repositorio; ese commit hace que
+# Cloudflare Pages reconstruya la web, que descarga los turnos de los 9 días siguientes.
 on:
   schedule:
-    # 09:50 en Madrid en invierno (10:50 en verano), después del cambio de turno de las 9:30
-    - cron: '50 8 * * *'
-    # refresco de tarde para recoger cambios de última hora
-    - cron: '30 17 * * *'
+    # sábados a las 09:50 en Madrid en invierno (10:50 en verano), después del cambio de turno de las 9:30
+    - cron: '50 8 * * 6'
   workflow_dispatch:
 
-permissions: {}
+permissions:
+  contents: write
 
 jobs:
-  disparar:
+  actualizar:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Pedir a Cloudflare una nueva versión
-        env:
-          HOOK: ${{ secrets.CF_DEPLOY_HOOK }}
+      - uses: actions/checkout@v4
+      - name: Registrar la actualización
         run: |
-          test -n "$HOOK" || { echo "Falta el secreto CF_DEPLOY_HOOK"; exit 1; }
-          curl -fsS -X POST "$HOOK"
+          date -u +"%Y-%m-%dT%H:%M:%SZ" > pipeline/ultima_actualizacion.txt
+          git config user.name "turno-bot"
+          git config user.email "turno-bot@users.noreply.github.com"
+          git add pipeline/ultima_actualizacion.txt
+          git commit -m "Actualización semanal de guardias"
+          git push
