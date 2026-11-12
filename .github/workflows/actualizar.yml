@@ -1,11 +1,11 @@
-name: Actualización semanal
+name: Actualización diaria
 
-# Cada sábado por la mañana deja constancia en el repositorio; ese commit hace que
-# Cloudflare Pages reconstruya la web, que descarga los turnos de los 9 días siguientes.
+# Cada mañana deja constancia en el repositorio; ese commit hace que Cloudflare Pages
+# reconstruya la web, que descarga los turnos del día y de los 9 días siguientes.
 on:
   schedule:
-    # sábados a las 09:50 en Madrid en invierno (10:50 en verano), después del cambio de turno de las 9:30
-    - cron: '50 8 * * 6'
+    # todos los días a las 09:50 en Madrid en invierno (10:50 en verano), después del cambio de turno de las 9:30
+    - cron: '50 8 * * *'
   workflow_dispatch:
 
 permissions:
@@ -23,5 +23,5 @@ jobs:
           git config user.name "turno-bot"
           git config user.email "turno-bot@users.noreply.github.com"
           git add pipeline/ultima_actualizacion.txt
-          git commit -m "Actualización semanal de guardias"
+          git commit -m "Actualización diaria de guardias"
           git push
