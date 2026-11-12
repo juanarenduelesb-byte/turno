@@ -55,7 +55,7 @@ function status(f){
   }
   const later=f.g.find(g=>g.a>n.iso&&g.a.slice(0,10)===n.date);
   let open=null;
-  if(f.hoy){ // horario oficial de hoy (COF Madrid)
+  if(f.hoy&&n.date===FARM.meta.built.slice(0,10)){ // el horario "de hoy" solo vale el día en que se descargó // horario oficial de hoy (COF Madrid)
     if(f.hoy==='00:00-00:00')open={o:true,d:'abierta 24 h'};
     else{const ps=f.hoy.split(/[,\s]+/).map(s=>s.split('-').map(t=>{const[a,b]=t.split(':');return +a*60+ +b}));
       let o=null,nx=null;ps.forEach(([a,b])=>{if(b<=a)b+=1440;if(n.min>=a&&n.min<b)o=b;if(a>n.min&&(nx===null||a<nx))nx=a});
