@@ -17,6 +17,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 RAW = os.path.join(HERE, 'raw')
 UA = {'User-Agent': 'Mozilla/5.0 (compatible; TurnoBot/1.0; +https://github.com/)'}
 TODAY = dt.datetime.now(ZoneInfo('Europe/Madrid')).date()
+# Copia de los últimos datos buenos: la propia web publicada guarda lo que usó en /_datos/
+LIVE = os.environ.get('TURNO_LIVE', 'https://turno-3ps.pages.dev/_datos/')
 DAYS = 9  # de sábado a domingo de la semana siguiente: cubre hasta la próxima actualización
 sys.path.insert(0, HERE)
 
@@ -116,6 +118,32 @@ def castilla_la_mancha():
 
 FUENTES = [madrid, madrid_registro, cadiz, zaragoza, sevilla, castilla_la_mancha]
 
+def fechas():
+    return [(TODAY + dt.timedelta(days=k)).isoformat() for k in range(-1, DAYS)]
+
+FICHEROS = {
+    'madrid': lambda: ['cofm_f.json'],
+    'madrid_registro': lambda: ['cam_of.json'],
+    'cadiz': lambda: ['cad_dir.json'] + [f'cad/{d}.json' for d in fechas()],
+    'zaragoza': lambda: ['zgz_all.json', 'zgz.json'],
+    'sevilla': lambda: [f'sev/{d}.json' for d in fechas()],
+    'castilla_la_mancha': lambda: [f'clm/{d}.json' for d in fechas()],
+}
+
+
+def restaurar(nombre):
+    """Si una fuente falla hoy, recupera los ficheros que usó la última versión publicada."""
+    n = 0
+    for rel in FICHEROS[nombre]():
+        try:
+            b = get(LIVE + rel, timeout=60)
+            json.loads(b)
+            save(rel, b)
+            n += 1
+        except Exception:
+            pass
+    return n
+
 def podar():
     """Borra descargas diarias de hace más de 2 días."""
     lim = (TODAY - dt.timedelta(days=2)).isoformat()
@@ -135,8 +163,18 @@ if __name__ == '__main__':
             estado['ok'].append(f.__name__)
             print('OK   ', f.__name__)
         except Exception as e:
+            # un segundo intento tras una pausa, por si era un corte puntual
+            try:
+                time.sleep(20)
+                f()
+                estado['ok'].append(f.__name__)
+                print('OK (2º intento)', f.__name__)
+                continue
+            except Exception as e2:
+                e = e2
+            n = restaurar(f.__name__)
             estado['error'][f.__name__] = str(e)[:300]
-            print('ERROR', f.__name__, e)
+            print('ERROR', f.__name__, e, f'-> {n} ficheros restaurados de la versión publicada')
     save('estado.json', estado)
     # falla el job solo si caen todas: así una fuente rota no bloquea al resto
     sys.exit(0 if estado['ok'] else 1)

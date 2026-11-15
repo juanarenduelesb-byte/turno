@@ -2,3 +2,4 @@ __pycache__/
 *.tmp
 site/farmacias.js
 pipeline/raw/
+site/_datos/
