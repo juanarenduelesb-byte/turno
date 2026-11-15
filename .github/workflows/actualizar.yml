@@ -6,6 +6,8 @@ on:
   schedule:
     # todos los días a las 09:50 en Madrid en invierno (10:50 en verano), después del cambio de turno de las 9:30
     - cron: '50 8 * * *'
+    # segundo intento: GitHub a veces retrasa horas los trabajos programados
+    - cron: '20 11 * * *'
   workflow_dispatch:
 
 permissions:
