@@ -205,14 +205,22 @@ print('Cádiz oficial:', len(SOE))
 spv = cod2i['41']
 _sev = sorted(p for p in glob.glob(f'{RAW}/sev/*.json') if os.path.basename(p)[:10] <= TODAY.isoformat())
 sev0 = json.load(open(_sev[-1]))['data']['data']['informacion'] if _sev else []
-ph = [f for f in ph if f['pv'] != spv] if sev0 else ph
+# Directorio base guardado (el buscador del COF solo lista las abiertas en domingo/festivo); el del día lo completa
+sevd = {c['uuid']: c for c in load(f'{STATIC}/sev_dir.json', [])}
+hoy_sev = {}
 for g in sev0:
     for c in g['contenido']:
-        if not c.get('coordenadas'): continue
-        lat, lon = c['coordenadas']
+        if c.get('coordenadas'): sevd[c['uuid']] = c
         hs = [f"{c[a]}-{c[b]}" for a, b in (('hora_inicio_m', 'hora_fin_m'), ('hora_inicio_t', 'hora_fin_t')) if c.get(a) and c.get(b)]
+        hoy_sev[c['uuid']] = ','.join(hs)
+ph = [f for f in ph if f['pv'] != spv] if sevd else ph
+for c in sevd.values():
+    try:
+        lat, lon = c['coordenadas']
         ph.append({'osm': '', 'lat': lat, 'lon': lon, 'name': 'Farmacia ' + c['nombre'], 'street': c.get('direccion') or '', 'city': c.get('municipio') or '',
-                   'cp': c.get('codigo_postal') or '', 'tel': c.get('telefono') or '', 'oh': '', 'src': 'cofsevilla', 'pv': spv, 'hoy': ','.join(hs), 'uuid': c['uuid']})
+                   'cp': c.get('codigo_postal') or '', 'tel': c.get('telefono') or '', 'oh': '', 'src': 'cofsevilla', 'pv': spv, 'hoy': hoy_sev.get(c['uuid'], ''), 'uuid': c['uuid']})
+    except Exception as e:
+        print('AVISO Sevilla', e)
 print('Sevilla oficial:', sum(1 for f in ph if f.get('src') == 'cofsevilla'))
 
 # ---------- Zaragoza capital: directorio oficial (Ayuntamiento, fuente COF) ----------
@@ -285,6 +293,7 @@ for fn in recent(glob.glob(f'{RAW}/cad/*.json')):
 # Zaragoza ciudad (hoy)
 z = load(f'{RAW}/zgz.json', {})
 for x in z.get('result', []):
+    if 'geometry' not in x or 'guardia' not in x: continue
     lon, lat = x['geometry']['coordinates']
     i = ZID.get(x['id'])
     if i is None:

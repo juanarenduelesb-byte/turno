@@ -99,7 +99,7 @@ def sevilla():
         inf = r['data']['data']['informacion']
         n = sum(len(g['contenido']) for g in inf)
         ng = sum(1 for g in inf for c in g['contenido'] if c.get('guardias'))
-        if (k == 0 and n < 500) or ng < 20:
+        if n < 50 or ng < 20:  # en domingo y festivo el buscador solo devuelve las abiertas
             raise ValueError(f'Sevilla {d}: {n} farmacias, {ng} con guardia')
         save(f'sev/{d}.json', r)
         time.sleep(1)
