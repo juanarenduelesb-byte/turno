@@ -97,7 +97,8 @@ function search(s){
   for(const p of PLACES){ if(p.k.startsWith(k)){out.push(p); if(out.length>=40)break;} }
   if(out.length<8){for(const p of PLACES){ if(!p.k.startsWith(k)&&p.k.includes(' '+k)){out.push(p); if(out.length>=40)break;}}}
   out.sort((a,b)=>(b.k===k)-(a.k===k)||b.pop-a.pop);
-  return out.slice(0,8).map(p=>({n:p.n,lat:p.lat,lon:p.lon,sub:P[p.pv].n,pv:p.pv}));
+  const seen=new Set();
+  return out.filter(p=>{const k=p.k+'|'+p.pv;if(seen.has(k))return false;seen.add(k);return true}).slice(0,8).map(p=>({n:p.n,lat:p.lat,lon:p.lon,sub:P[p.pv].n,pv:p.pv}));
 }
 function showSug(){
   hits=search(q.value); hl=-1;
