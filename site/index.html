@@ -6,105 +6,79 @@
 <title>Turno · Farmacias de guardia en España</title>
 <meta name="description" content="Encuentra la farmacia de guardia más cercana con datos oficiales de los colegios de farmacéuticos.">
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#04080B">
+<meta name="theme-color" content="#F5F6F3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0D1311" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<nav class="topnav" id="topnav"><div class="bar">
-  <a class="brand mark" href="#cerca" aria-label="Turno, inicio"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="cr" d="M9.2 2.5h5.6a1 1 0 0 1 1 1v4.7h4.7a1 1 0 0 1 1 1v5.6a1 1 0 0 1-1 1h-4.7v4.7a1 1 0 0 1-1 1H9.2a1 1 0 0 1-1-1v-4.7H3.5a1 1 0 0 1-1-1V9.2a1 1 0 0 1 1-1h4.7V3.5a1 1 0 0 1 1-1z"/><path class="mo" d="M17.6 1.2a3.6 3.6 0 1 0 4.4 4.4 3 3 0 1 1-4.4-4.4z"/></svg><span>turno</span><i class="live" aria-hidden="true"></i></a>
-  <div class="seg tabs"><span class="pill-bg" aria-hidden="true"></span><a href="#cerca">Cerca de mí</a><a href="#semana">Esta semana</a><a href="#colegios">Colegios y fuentes</a></div>
+<svg class="topo" id="bgTopo" viewBox="0 0 1600 1000" aria-hidden="true"></svg>
+
+<header class="topbar"><div class="in">
+  <a class="brand mark" href="#cerca" aria-label="Turno, inicio"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="cr" d="M9.2 2.5h5.6a1 1 0 0 1 1 1v4.7h4.7a1 1 0 0 1 1 1v5.6a1 1 0 0 1-1 1h-4.7v4.7a1 1 0 0 1-1 1H9.2a1 1 0 0 1-1-1v-4.7H3.5a1 1 0 0 1-1-1V9.2a1 1 0 0 1 1-1h4.7V3.5a1 1 0 0 1 1-1z"/><path class="mo" d="M17.6 1.2a3.6 3.6 0 1 0 4.4 4.4 3 3 0 1 1-4.4-4.4z"/></svg><span>turno</span></a>
+  <nav class="seg tabs" aria-label="Secciones"><a href="#cerca">Cerca de mí</a><a href="#semana">Esta semana</a><a href="#colegios">Colegios y fuentes</a></nav>
+  <span class="spacer"></span>
   <a class="navlink" href="como-funciona.html">Cómo funciona</a>
+  <a class="sos" href="tel:112"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2"/></svg>Urgencias 112</a>
   <button class="icon-btn" id="theme" title="Cambiar entre modo claro y oscuro" aria-label="Cambiar tema"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 0 0 16z" fill="currentColor"/></svg></button>
-</div></nav>
+</div></header>
 
-<header class="band" id="band">
-  <svg class="topo" id="bgTopo" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
-  <div class="grain" aria-hidden="true"></div>
-  <nav class="tabbar" aria-label="Secciones"><div class="tabin tabs"><a href="#cerca" class="tb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5" class="f"/></svg><span>Cerca</span></a><a href="#semana" class="tb"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="3.2"/><path d="M3.5 9.6h17M8 3v4M16 3v4"/><circle cx="8.3" cy="14" r=".9" class="f"/><circle cx="12" cy="14" r=".9" class="f"/><circle cx="15.7" cy="14" r=".9" class="f"/></svg><span>Semana</span></a><a href="#colegios" class="tb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 9.5 12 4l8.5 5.5"/><path d="M5.5 10v8M9.8 10v8M14.2 10v8M18.5 10v8M3.5 20.5h17"/></svg><span>Fuentes</span></a></div></nav>
-  <div class="wrap">
-    <div class="hero">
-      <div class="copy">
-        <p class="eyebrow" id="eyebrow"><i></i>Farmacias de guardia · España</p>
-        <h1 id="h1" data-split>¿Qué farmacia está <em>de guardia</em> cerca de ti?</h1>
-        <p class="lede" id="lede">Turnos oficiales de los colegios de farmacéuticos, cruzados con el mapa de todas las farmacias. <b>Abre, escribe dónde estás y ve.</b></p>
-      </div>
-      <div class="sign" id="sign" aria-hidden="true"><canvas id="led"></canvas><p class="cap"><i></i><span id="signCap">Letrero en directo</span></p></div>
-    </div>
+<main class="wrap">
+  <section class="find" aria-labelledby="h1">
+    <p class="fresh" id="eyebrow"><i aria-hidden="true"></i><span id="fresh">Turnos oficiales de los colegios de farmacéuticos</span></p>
+    <h1 id="h1">¿Qué farmacia está de guardia cerca de ti?</h1>
+    <form class="tool" id="tool" autocomplete="off">
+      <label class="field q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><input type="search" id="q" placeholder="Municipio, barrio o código postal" aria-label="Tu ubicación"></label>
+      <select id="rad" class="rad" aria-label="Radio de búsqueda"><option value="2">Hasta 2 km</option><option value="5">Hasta 5 km</option><option value="10" selected>Hasta 10 km</option><option value="25">Hasta 25 km</option><option value="50">Hasta 50 km</option></select>
+      <button class="btn" type="button" id="gps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg><span>Usar mi ubicación</span></button>
+      <div class="sug" id="sug" hidden></div>
+      <div class="gmsg" id="gmsg" hidden></div>
+    </form>
+    <div class="quick" id="quick" aria-label="Ejemplos"></div>
+  </section>
 
-    <div class="finder" id="finder">
-      <form class="tool" id="tool" autocomplete="off">
-        <label class="field q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><input type="search" id="q" placeholder="Municipio, barrio o código postal" aria-label="Tu ubicación"></label>
-        <select id="rad" class="rad" aria-label="Radio de búsqueda"><option value="2">Hasta 2 km</option><option value="5">Hasta 5 km</option><option value="10" selected>Hasta 10 km</option><option value="25">Hasta 25 km</option><option value="50">Hasta 50 km</option></select>
-        <button class="btn" type="button" id="gps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg><span>Mi ubicación</span></button>
-        <div class="sug" id="sug" hidden data-lenis-prevent></div>
-        <div class="gmsg" id="gmsg" hidden></div>
-      </form>
-      <div class="quick" id="quick"></div>
-    </div>
-
-    <div class="kpis num" id="kpis"></div>
-  </div>
-</header>
-
-<div class="ticker" id="ticker" aria-hidden="true"><div class="track" id="tickerTrack"></div></div>
-
-<main class="app" id="app">
-  <div class="wrap">
-
-    <!-- CERCA -->
-    <section id="v-cerca">
-      <div class="sechead">
-        <div><p class="kicker">Ahora mismo</p><h2 class="title">La más cercana, <em>primero</em>.</h2></div>
-      </div>
-      <div class="best glass" id="best"></div>
-      <div class="status" id="status"></div>
-      <div class="explore">
-        <div class="list glass" id="list" data-lenis-prevent></div>
-        <div class="mapbox glass" id="mapbox">
-          <div class="map" id="map">
-            <svg id="msvg" aria-label="Mapa de farmacias"></svg>
-            <div class="mctl"><button type="button" id="zin" aria-label="Acercar">+</button><button type="button" id="zout" aria-label="Alejar">−</button><button type="button" id="zme" aria-label="Centrar en mi ubicación"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></button></div>
-            <div class="mhint" id="mhint" hidden></div>
-            <div class="mleg"><span><i class="dot s-guardia"></i>De guardia</span><span><i class="dot s-abierta"></i>Abierta</span><span><i class="dot s-cerrada"></i>Cerrada</span><span><i class="dot s-nd"></i>Sin horario</span></div>
-            <div class="mscale" id="mscale"></div>
-          </div>
-          <div class="card" id="card" hidden data-lenis-prevent></div>
+  <!-- CERCA -->
+  <section id="v-cerca">
+    <div class="answer" id="answer"><div class="best glass" id="best" aria-live="polite"></div></div>
+    <div class="status" id="status"></div>
+    <div class="explore">
+      <div class="list glass" id="list"></div>
+      <div class="mapbox glass" id="mapbox">
+        <div class="map" id="map">
+          <svg id="msvg" aria-label="Mapa de farmacias"></svg>
+          <div class="mctl"><button type="button" id="zin" aria-label="Acercar">+</button><button type="button" id="zout" aria-label="Alejar">−</button><button type="button" id="zme" aria-label="Centrar en mi ubicación"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></button></div>
+          <div class="mhint" id="mhint" hidden></div>
+          <div class="mleg"><span><i class="dot s-guardia"></i>De guardia</span><span><i class="dot s-abierta"></i>Abierta</span><span><i class="dot s-cerrada"></i>Cerrada</span><span><i class="dot s-nd"></i>Sin horario</span></div>
+          <div class="mscale" id="mscale"></div>
         </div>
+        <div class="card" id="card" hidden></div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- SEMANA -->
-    <section id="v-semana" hidden>
-      <div class="sechead"><div><p class="kicker">Próximos 7 días</p><h2 class="title" id="wtitle">Guardias de esta semana</h2></div></div>
-      <div id="wbody"></div>
-    </section>
+  <!-- SEMANA -->
+  <section id="v-semana" hidden>
+    <h2 class="title" id="wtitle">Guardias de esta semana</h2>
+    <div id="wbody"></div>
+  </section>
 
-    <!-- COLEGIOS -->
-    <section id="v-colegios" hidden>
-      <div class="sechead"><div><p class="kicker">Fuentes</p><h2 class="title">De dónde salen <em>los datos</em>.</h2></div><a class="btn ghost" href="como-funciona.html">Cómo funciona Turno</a></div>
-      <div class="method glass">
-        <div><h3>Farmacias</h3><p id="mFarm"></p></div>
-        <div><h3>Guardias</h3><p id="mGuard"></p></div>
-        <div><h3>Lo que falta</h3><p>No existe un servicio nacional de guardias: cada uno de los 52 colegios publica su turno en su web y con su formato. Para cubrir España entera hay que conectar las 52 fuentes y actualizarlas a diario desde un servidor.</p></div>
-      </div>
-      <div class="cofs" id="cofs"></div>
-    </section>
+  <!-- COLEGIOS -->
+  <section id="v-colegios" hidden>
+    <h2 class="title">De dónde salen los datos</h2>
+    <div class="method glass">
+      <div><h3>Farmacias</h3><p id="mFarm"></p></div>
+      <div><h3>Guardias</h3><p id="mGuard"></p></div>
+      <div><h3>Lo que falta</h3><p>No existe un servicio nacional de guardias: cada uno de los 52 colegios publica su turno en su web y con su formato. Para cubrir España entera hay que conectar las 52 fuentes y actualizarlas a diario desde un servidor. <a href="como-funciona.html">Cómo funciona Turno</a>.</p></div>
+    </div>
+    <div class="cofs" id="cofs"></div>
+  </section>
 
-    <div class="health rv"><p><b>Información orientativa.</b> Turno no es un servicio sanitario ni sustituye al turno oficial de tu colegio de farmacéuticos. Antes de desplazarte, llama a la farmacia o confírmalo en la fuente oficial. Ante una urgencia, llama al <b>112</b>.</p></div>
-  </div>
+  <div class="kpis today num" id="kpis" aria-label="Turno hoy"></div>
+  <div class="health"><p><b>Información orientativa.</b> Turno no es un servicio sanitario ni sustituye al turno oficial de tu colegio de farmacéuticos. Antes de desplazarte, llama a la farmacia o confírmalo en la fuente oficial. Ante una urgencia, llama al <b>112</b>.</p></div>
+  <footer id="foot"></footer>
 </main>
 
-<section class="outro" id="outro">
-  <div class="grain" aria-hidden="true"></div>
-  <div class="wrap">
-    <p class="kicker" style="color:var(--led)">Cada mañana, a las 9:50</p>
-    <p class="big" data-split>Turno vuelve a leer <em>España</em> entera.</p>
-    <div class="row2"><a class="btn on" href="como-funciona.html">Ver cómo funciona</a><a class="btn off" href="#cerca" data-top>Buscar otra farmacia</a></div>
-    <p class="n112">Ante una urgencia, llama al <b class="num">112</b></p>
-    <footer id="foot"></footer>
-  </div>
-</section>
+<nav class="tabbar" aria-label="Secciones"><div class="tabin tabs"><a href="#cerca" class="tb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5" class="f"/></svg><span>Cerca</span></a><a href="#semana" class="tb"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="3.2"/><path d="M3.5 9.6h17M8 3v4M16 3v4"/><circle cx="8.3" cy="14" r=".9" class="f"/><circle cx="12" cy="14" r=".9" class="f"/><circle cx="15.7" cy="14" r=".9" class="f"/></svg><span>Semana</span></a><a href="#colegios" class="tb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 9.5 12 4l8.5 5.5"/><path d="M5.5 10v8M9.8 10v8M14.2 10v8M18.5 10v8M3.5 20.5h17"/></svg><span>Fuentes</span></a></div></nav>
 
 <div class="cookies" id="cookies" role="dialog" aria-modal="false" aria-labelledby="ckT" hidden>
   <div class="ckin">
@@ -128,9 +102,6 @@
 <script src="farmacias.js"></script>
 <script src="app.js"></script>
 <script src="vendor/gsap.min.js"></script>
-<script src="vendor/ScrollTrigger.min.js"></script>
-<script src="vendor/lenis.min.js"></script>
-<script src="led.js"></script>
 <script src="motion.js"></script>
 </body>
 </html>
