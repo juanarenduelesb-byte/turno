@@ -122,8 +122,7 @@ a{color:var(--accent)}
 .best .ic svg{width:30px;height:30px}
 .best .k{font-size:14px;font-weight:700;color:var(--guard);margin:0 0 4px;display:flex;align-items:center;gap:8px}
 .best .k.mut{color:var(--muted)}
-.pulse{width:9px;height:9px;border-radius:50%;background:currentColor;flex:none;animation:pulse 2s infinite}
-@keyframes pulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,currentColor 45%,transparent)}70%,100%{box-shadow:0 0 0 8px transparent}}
+.pulse{width:9px;height:9px;border-radius:50%;background:currentColor;flex:none}
 .best h2{font-size:clamp(22px,2.4vw,30px);line-height:1.15;letter-spacing:-.03em;margin:0}
 .best p{margin:6px 0 0;color:var(--muted);font-size:15px}
 .best .side{display:flex;flex-direction:column;align-items:flex-end;gap:14px}
