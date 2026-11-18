@@ -1,0 +1,20 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "instrument sans",
+        "createdAt": "2026-11-18T01:14:58.854Z",
+        "reason": "Brand typeface: Turno already shipped it and the Esclusa brand guide mandates Instrument Sans"
+      },
+      {
+        "rule": "overused-font",
+        "value": "instrument serif",
+        "createdAt": "2026-11-18T01:14:58.872Z",
+        "reason": "Turno's existing accent face for the italic emphasis word, kept from the original site"
+      }
+    ]
+  }
+}

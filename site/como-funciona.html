@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Cómo funciona · Turno</title>
+<meta name="description" content="Cómo Turno reúne cada mañana los turnos oficiales de guardia de los colegios de farmacéuticos.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#04080B">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="funciona.css">
+</head>
+<body class="cf">
+<nav class="topnav" id="topnav"><div class="bar">
+  <a class="brand mark" href="index.html" aria-label="Turno, inicio"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="cr" d="M9.2 2.5h5.6a1 1 0 0 1 1 1v4.7h4.7a1 1 0 0 1 1 1v5.6a1 1 0 0 1-1 1h-4.7v4.7a1 1 0 0 1-1 1H9.2a1 1 0 0 1-1-1v-4.7H3.5a1 1 0 0 1-1-1V9.2a1 1 0 0 1 1-1h4.7V3.5a1 1 0 0 1 1-1z"/><path class="mo" d="M17.6 1.2a3.6 3.6 0 1 0 4.4 4.4 3 3 0 1 1-4.4-4.4z"/></svg><span>turno</span><i class="live" aria-hidden="true"></i></a>
+  <div class="seg"><a href="index.html#cerca">Cerca de mí</a><a href="index.html#semana">Esta semana</a><a href="index.html#colegios">Colegios y fuentes</a></div>
+  <a class="navlink on" href="como-funciona.html" aria-current="page">Cómo funciona</a>
+  <a class="btn cta" href="index.html">Buscar farmacia</a>
+</div></nav>
+
+<!-- 1 · apertura -->
+<header class="cf-hero">
+  <div class="grain" aria-hidden="true"></div>
+  <div class="wrap">
+    <p class="eyebrow"><i></i>Cómo funciona</p>
+    <h1 data-split>Cada mañana, Turno vuelve a leer <em>España</em>.</h1>
+    <p class="lede">No hay un servicio nacional de guardias. Cada colegio de farmacéuticos publica su turno en su web y con su formato. Turno los lee, los cruza con el mapa de todas las farmacias y publica una web que cabe en tu bolsillo.</p>
+    <div class="clock" aria-hidden="true"><span id="clk" class="num">--:--</span><small>hora en Madrid</small></div>
+    <p class="cue" aria-hidden="true"><span></span>Baja para verlo</p>
+  </div>
+</header>
+
+<!-- 2 · el mapa que se enciende -->
+<section class="scene" id="scene" aria-label="Del dato oficial al mapa">
+  <div class="stage">
+    <div class="steps">
+      <article class="step" data-i="0"><p class="n">01</p><h2>Primero, el mapa.</h2><p>Las 52 provincias, con sus fronteras. Es la base sobre la que se colocan las farmacias y se sabe a qué colegio pertenece cada una.</p></article>
+      <article class="step" data-i="1"><p class="n">02</p><h2>Luego, todas las farmacias.</h2><p>El directorio oficial donde existe (Madrid, Cádiz, Sevilla, Zaragoza) y OpenStreetMap para el resto. Se encienden desde Madrid hacia fuera.</p></article>
+      <article class="step" data-i="2"><p class="n">03</p><h2>Después, quién está de guardia.</h2><p>Los turnos oficiales de cada colegio integrado se descargan y se cruzan, farmacia a farmacia, con ese directorio.</p></article>
+      <article class="step" data-i="3"><p class="n">04</p><h2>Y donde aún no llega, el enlace oficial.</h2><p>Las provincias integradas quedan marcadas. En el resto, Turno te manda al turno que publica su colegio.</p></article>
+    </div>
+    <div class="viz">
+      <canvas id="spain" aria-hidden="true"></canvas>
+      <div class="meter"><b id="mNum" class="num">0</b><span id="mLab">provincias</span></div>
+      <div class="bar"><i id="mBar"></i></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 · un día de Turno -->
+<section class="day" id="day" aria-label="Un día de Turno">
+  <div class="dayin">
+    <div class="dayhead wrap"><p class="kicker">Un día de Turno</p><h2 class="title">Una actualización, <em>cinco pasos</em>.</h2></div>
+    <div class="rail" id="rail">
+      <article class="tcard"><time class="num">09:30</time><h3>Cambia el turno</h3><p>Las farmacias de guardia del día anterior terminan y empiezan las de hoy.</p></article>
+      <article class="tcard"><time class="num">09:50</time><h3>Llega la orden</h3><p>Un trabajo programado en GitHub deja constancia en el repositorio. Si GitHub se retrasa, hay un segundo intento a las 12:20.</p></article>
+      <article class="tcard"><time class="num">09:51</time><h3>Se descargan las fuentes</h3><p>Madrid, Cádiz, Sevilla, Castilla-La Mancha y Zaragoza, cada una desde su web oficial.</p></article>
+      <article class="tcard"><time class="num">09:52</time><h3>Se cruza y se revisa</h3><p>Cada guardia se une a su farmacia. Si el resultado no es razonable, la publicación se frena y sigue la versión anterior.</p></article>
+      <article class="tcard hot"><time class="num">09:53</time><h3>La web ya sabe</h3><p>Una web estática, sin servidor ni base de datos. Tu móvil calcula la distancia y la hora de cierre en el momento.</p></article>
+    </div>
+    <div class="track wrap"><i id="trk"></i></div>
+  </div>
+</section>
+
+<!-- 4 · principios -->
+<section class="rules wrap" aria-label="Principios">
+  <p class="kicker">Por diseño</p>
+  <h2 class="title">Lo que Turno <em>no</em> hace.</h2>
+  <div class="grid">
+    <article class="rule"><span class="num">01</span><h3>Sin servidor</h3><p>Archivos estáticos. No hay nada que hackear ni que se caiga a las tres de la mañana.</p></article>
+    <article class="rule"><span class="num">02</span><h3>Sin analítica</h3><p>Ni cookies de seguimiento ni publicidad. Tus búsquedas no salen de tu dispositivo.</p></article>
+    <article class="rule"><span class="num">03</span><h3>Sin recursos ajenos</h3><p>Fuentes, scripts y animaciones se sirven desde la propia web, con una política de seguridad estricta.</p></article>
+    <article class="rule"><span class="num">04</span><h3>Sin inventar</h3><p>Si una fuente falla, se publica el último dato válido y se avisa. Si no hay turno, se dice.</p></article>
+  </div>
+</section>
+
+<section class="outro">
+  <div class="grain" aria-hidden="true"></div>
+  <div class="wrap">
+    <p class="kicker" style="color:var(--led)">Ahora, tú</p>
+    <p class="big" data-split>Busca tu farmacia <em>de guardia</em>.</p>
+    <div class="row2"><a class="btn on" href="index.html">Abrir el buscador</a><a class="btn off" href="index.html#colegios">Ver las 52 fuentes</a></div>
+    <p class="n112">Ante una urgencia, llama al <b class="num">112</b></p>
+    <footer>
+      <p id="credits">Datos: colegios de farmacéuticos de Madrid, Cádiz, Sevilla y Castilla-La Mancha, Comunidad de Madrid, Ayuntamiento de Zaragoza, OpenStreetMap (© colaboradores de OSM, ODbL) y GeoNames.</p>
+      <nav class="legal"><a href="legal.html#aviso-legal">Aviso legal</a><a href="legal.html#privacidad">Privacidad</a><a href="legal.html#cookies">Cookies</a><a href="legal.html#terminos">Términos de uso</a><a href="legal.html#fuentes">Fuentes y licencias</a></nav>
+      <div class="by esc"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="a" d="M3 7c3 0 3 3 6 3s3-3 6-3 3 3 6 3" fill="none" stroke-width="2.4" stroke-linecap="round"/><path class="b" d="M3 14c3 0 3 3 6 3s3-3 6-3 3 3 6 3" fill="none" stroke-width="2.4" stroke-linecap="round"/></svg><span>Un proyecto de <b>esclusa</b></span></div>
+    </footer>
+  </div>
+</section>
+
+<script src="geo.js"></script>
+<script src="farmacias.js"></script>
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrollTrigger.min.js"></script>
+<script src="vendor/lenis.min.js"></script>
+<script src="funciona.js"></script>
+</body>
+</html>
